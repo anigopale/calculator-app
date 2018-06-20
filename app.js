@@ -17,11 +17,13 @@ var calcController = (function() {
 
   // public methods
   return {
-    updateInput: function(input, reset) {
+    updateInput: function(input, reset, isOperator) {
       // updates input and output
 
       if(reset) {
         appData.input = input;
+      } else if(isOperator) {
+        appData.input = appData.input.slice(0, -1) + input;
       } else {
         appData.input = appData.input + input;
       }
@@ -39,12 +41,18 @@ var calcController = (function() {
 
 var UIController = (function() {
 
-  var renderInput = function(input, reset) {
+  var renderInput = function(input, reset, isOperator) {
+    var currInput;
+
     if(reset) {
       document.getElementById("input").textContent = input;
+    } else if(isOperator) {
+      // if new input is operator, replace old one
+      currInput = document.getElementById("input").textContent;
+      document.getElementById("input").textContent = currInput.slice(0, -1) + input;
     } else {
       // if reset is false, append input
-      var currInput = document.getElementById("input").textContent;
+      currInput = document.getElementById("input").textContent;
       document.getElementById("input").textContent = currInput + input;
     }
   }
@@ -55,8 +63,8 @@ var UIController = (function() {
 
   // public methods
   return {
-    displayInput: function(input, reset) {
-      renderInput(input, reset);
+    displayInput: function(input, reset, isOperator) {
+      renderInput(input, reset, isOperator);
     },
 
     displayOutput: function(output, reset) {
@@ -75,9 +83,20 @@ var appController = (function(calcCtrl, UICtrl) {
     }
   }
 
+  // checks if char is an operator
+  var isOperator = function(char) {
+    var operators = ['*', '-', '+', '/'];
+
+    if(operators.indexOf(char) !== -1) {
+      return true;
+    }
+    return false;
+  }
+
   var setupEventListeners = function() {
     var output;
     var buttons = document.querySelectorAll("button");
+
 
     nodeListForEach(buttons, function(button) {
       button.addEventListener("click", function() {
@@ -101,9 +120,17 @@ var appController = (function(calcCtrl, UICtrl) {
           calcCtrl.updateInput(output, true);
           UICtrl.displayOutput("");
         } else {
-          // update input and calculate output
-          UICtrl.displayInput(buttonContent);
-          calcCtrl.updateInput(buttonContent);
+          input = calcCtrl.getInput();
+
+          // if current and previous input are operators, replace previous operator
+          if(isOperator(input.charAt(input.length - 1)) && isOperator(buttonContent)) {
+            UICtrl.displayInput(buttonContent, false, true);
+            calcCtrl.updateInput(buttonContent, false, true);
+          } else {
+            // update input and calculate output
+            UICtrl.displayInput(buttonContent);
+            calcCtrl.updateInput(buttonContent);
+          }
 
           // update output
           output = calcCtrl.getOutput();
