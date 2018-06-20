@@ -6,10 +6,12 @@ var calcController = (function() {
 
   var calcOutput = function(input) {
     var output = eval(input);
-
+    if(!input) {
+      appData.output = "";
+    }
     if(output) {
       // update output only if input is valid
-      appData.output = output;
+      appData.output = String(output);
     }
   }
 
@@ -27,6 +29,9 @@ var calcController = (function() {
     },
     getOutput: function() {
       return appData.output;
+    },
+    getInput: function() {
+      return appData.input;
     }
   }
 
@@ -78,7 +83,16 @@ var appController = (function(calcCtrl, UICtrl) {
       button.addEventListener("click", function() {
         var buttonContent = button.textContent
         if (buttonContent === "DEL") {
-          // delete number
+          // delete number and update input/output
+          input = calcCtrl.getInput();
+          input = input.slice(0, -1);
+
+          // update and render input
+          calcCtrl.updateInput(input, true);
+          UICtrl.displayInput(input, true);
+          // render output
+          output = calcCtrl.getOutput();
+          UICtrl.displayOutput(output);
         } else if (buttonContent === "=") {
           // show output (set output as the new input)
           output = calcCtrl.getOutput();
