@@ -33,6 +33,7 @@ body {
   height: 50%;
   width: 100%;
   text-align: right;
+  font-size: 200%;
   white-space: nowrap;
   overflow-x: scroll;
   overflow-y: hidden;

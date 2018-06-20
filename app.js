@@ -86,10 +86,11 @@ var appController = (function(calcCtrl, UICtrl) {
           // delete number and update input/output
           input = calcCtrl.getInput();
           input = input.slice(0, -1);
+          console.log(input);
 
           // update and render input
-          calcCtrl.updateInput(input, true);
           UICtrl.displayInput(input, true);
+          calcCtrl.updateInput(input, true);
           // render output
           output = calcCtrl.getOutput();
           UICtrl.displayOutput(output);
