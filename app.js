@@ -15,9 +15,14 @@ var calcController = (function() {
 
   // public methods
   return {
-    updateInput: function(input) {
+    updateInput: function(input, reset) {
       // updates input and output
-      appData.input = appData.input + input;
+
+      if(reset) {
+        appData.input = input;
+      } else {
+        appData.input = appData.input + input;
+      }
       calcOutput(appData.input);
     },
     getOutput: function() {
@@ -66,6 +71,7 @@ var appController = (function(calcCtrl, UICtrl) {
   }
 
   var setupEventListeners = function() {
+    var output;
     var buttons = document.querySelectorAll("button");
 
     nodeListForEach(buttons, function(button) {
@@ -75,13 +81,17 @@ var appController = (function(calcCtrl, UICtrl) {
           // delete number
         } else if (buttonContent === "=") {
           // show output (set output as the new input)
+          output = calcCtrl.getOutput();
+          UICtrl.displayInput(output, true);
+          calcCtrl.updateInput(output, true);
+          UICtrl.displayOutput("");
         } else {
           // update input and calculate output
           UICtrl.displayInput(buttonContent);
           calcCtrl.updateInput(buttonContent);
 
           // update output
-          var output = calcCtrl.getOutput();
+          output = calcCtrl.getOutput();
           UICtrl.displayOutput(output);
         }
       })
