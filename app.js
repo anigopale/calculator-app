@@ -17,9 +17,12 @@ var UIController = (function() {
 
   // public methods
   return {
-    displayInputOutput: function(obj) {
-      renderInput(obj.input);
-      renderOutput(obj.output);
+    displayInput: function(input) {
+      renderInput(input);
+    },
+
+    displayOutput: function(output) {
+      renderOutput(output);
     }
   }
 })();
@@ -38,7 +41,21 @@ var appController = (function(calcCtrl, UICtrl) {
     var buttons = document.querySelectorAll("button");
 
     nodeListForEach(buttons, function(button) {
-      console.log(button.textContent);
+      button.addEventListener("click", function() {
+        var buttonContent = button.textContent
+        if (buttonContent === "DEL") {
+          // delete number
+        } else if (buttonContent === "=") {
+          // show output
+        } else {
+          // update input
+          UICtrl.displayInput(buttonContent);
+
+          // calculate output
+
+          // update output
+        }
+      })
     });
   }
 
@@ -46,10 +63,8 @@ var appController = (function(calcCtrl, UICtrl) {
   // public methods
   return {
     init: function() {
-      UICtrl.displayInputOutput({
-        input: "",
-        output: ""
-      });
+      UICtrl.displayInput("");
+      UICtrl.displayOutput("");
 
       setupEventListeners();
     }
