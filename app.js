@@ -19,6 +19,9 @@ var calcController = (function() {
       // updates input and output
       appData.input = appData.input + input;
       calcOutput(appData.input);
+    },
+    getOutput: function() {
+      return appData.output;
     }
   }
 
@@ -73,14 +76,13 @@ var appController = (function(calcCtrl, UICtrl) {
         } else if (buttonContent === "=") {
           // show output (set output as the new input)
         } else {
-          // update input
+          // update input and calculate output
           UICtrl.displayInput(buttonContent);
           calcCtrl.updateInput(buttonContent);
 
-          // calculate output
-
-
           // update output
+          var output = calcCtrl.getOutput();
+          UICtrl.displayOutput(output);
         }
       })
     });
