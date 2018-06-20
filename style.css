@@ -39,6 +39,13 @@ body {
   overflow-y: hidden;
 }
 
+.input {
+  font-size: 300%;
+}
+.output {
+  font-size: 200%;
+}
+
 
 /*--------------------------*/
 /* REUSABLE/COMMON STYLES */
