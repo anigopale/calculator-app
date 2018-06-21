@@ -1,6 +1,6 @@
 # Calculator
 
-A simple calcualtor that allows users to perform basic arithmetic operations.
+A simple calculator that allows users to perform basic arithmetic operations.
 
 ## Demo
 [calculator](https://anigopale.github.io/calculator-app/)
@@ -15,7 +15,7 @@ $ http-server
 ```
 ## Screenshots
 
-### The answer is 42
+### The answer is 42 :)
 
 ![app-screenshot](assets/img/app-screenshot.png)
 
