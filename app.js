@@ -9,7 +9,7 @@ var calcController = (function() {
     if(!input) {
       appData.output = "";
     }
-    if(output) {
+    if(typeof output === 'number') {
       // update output only if input is valid
       appData.output = String(output);
     }
@@ -105,7 +105,6 @@ var appController = (function(calcCtrl, UICtrl) {
           // delete number and update input/output
           input = calcCtrl.getInput();
           input = input.slice(0, -1);
-          console.log(input);
 
           // update and render input
           UICtrl.displayInput(input, true);
